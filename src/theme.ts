@@ -34,6 +34,12 @@ export const theme = createTheme({
       },
     },
     MuiTextField: { defaultProps: { size: 'small', variant: 'outlined' } },
-    MuiButton: { defaultProps: { disableElevation: true } },
+    MuiButton: {
+      defaultProps: { disableElevation: true },
+      styleOverrides: {
+        // 防止按钮文字换行/被截断
+        root: { whiteSpace: 'nowrap', flexShrink: 0 },
+      },
+    },
   },
 });

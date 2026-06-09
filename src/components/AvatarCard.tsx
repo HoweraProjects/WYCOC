@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Avatar, Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -23,43 +23,63 @@ export default function AvatarCard({ character, update }: Props) {
   };
 
   return (
-    <Stack alignItems="center" spacing={1.5}>
-      <Avatar
-        src={character.avatar}
-        variant="rounded"
-        sx={{
-          width: 132,
-          height: 132,
-          bgcolor: 'rgba(47,111,106,0.10)',
-          color: 'primary.main',
-          border: '2px solid rgba(47,111,106,0.2)',
-        }}
-      >
-        <PersonIcon sx={{ fontSize: 64 }} />
-      </Avatar>
-      <Box>
-        <input ref={inputRef} type="file" accept="image/*" hidden onChange={onFile} />
-        <Stack direction="row" spacing={1}>
+    <Stack alignItems="center" spacing={1.5} sx={{ width: '100%' }}>
+      {character.avatar ? (
+        // 完整显示图片，按原始比例自适应，不裁剪
+        <Box
+          component="img"
+          src={character.avatar}
+          alt="头像"
+          sx={{
+            display: 'block',
+            maxWidth: { xs: 160, sm: 200 },
+            maxHeight: 300,
+            width: 'auto',
+            height: 'auto',
+            borderRadius: 2,
+            border: '2px solid rgba(47,111,106,0.2)',
+            objectFit: 'contain',
+          }}
+        />
+      ) : (
+        <Box
+          sx={{
+            width: 132,
+            height: 132,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 2,
+            bgcolor: 'rgba(47,111,106,0.10)',
+            color: 'primary.main',
+            border: '2px solid rgba(47,111,106,0.2)',
+          }}
+        >
+          <PersonIcon sx={{ fontSize: 64 }} />
+        </Box>
+      )}
+
+      <input ref={inputRef} type="file" accept="image/*" hidden onChange={onFile} />
+      <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center" useFlexGap>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<PhotoCameraIcon />}
+          onClick={() => inputRef.current?.click()}
+        >
+          {character.avatar ? '更换头像' : '上传头像'}
+        </Button>
+        {character.avatar && (
           <Button
             size="small"
-            variant="outlined"
-            startIcon={<PhotoCameraIcon />}
-            onClick={() => inputRef.current?.click()}
+            color="inherit"
+            startIcon={<DeleteOutlineIcon />}
+            onClick={() => update({ avatar: undefined })}
           >
-            上传头像
+            移除
           </Button>
-          {character.avatar && (
-            <Button
-              size="small"
-              color="inherit"
-              startIcon={<DeleteOutlineIcon />}
-              onClick={() => update({ avatar: undefined })}
-            >
-              移除
-            </Button>
-          )}
-        </Stack>
-      </Box>
+        )}
+      </Stack>
     </Stack>
   );
 }
