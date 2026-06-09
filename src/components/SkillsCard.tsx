@@ -42,6 +42,11 @@ const groupColors: Record<string, string> = {
   操纵: GROUP_ACCENT,
 };
 
+// 单一网格列定义：名称列自适应（最小 120px），其余固定宽。
+// 配合外层横向滚动容器，在窄屏（手机）上整体可横滑，避免名称与输入框重叠。
+const GRID_COLS = 'minmax(120px, 1.6fr) 50px 54px 54px 54px 54px 46px 46px 30px';
+const TABLE_MIN_WIDTH = 560;
+
 function PointPool({
   label,
   used,
@@ -224,11 +229,14 @@ export default function SkillsCard({ character, update }: Props) {
         </Box>
       )}
 
+      {/* 横向滚动容器：窄屏可整体横滑，列宽保持可读 */}
+      <Box sx={{ overflowX: 'auto', mx: -0.5, px: 0.5, pb: 0.5 }}>
+       <Box sx={{ minWidth: TABLE_MIN_WIDTH }}>
       {/* 列头 */}
       <Box
         sx={{
-          display: { xs: 'none', sm: 'grid' },
-          gridTemplateColumns: '1.6fr 48px 56px 56px 56px 56px 48px 48px 32px',
+          display: 'grid',
+          gridTemplateColumns: GRID_COLS,
           gap: 0.5,
           px: 1,
           py: 0.5,
@@ -268,10 +276,7 @@ export default function SkillsCard({ character, update }: Props) {
                   key={idx}
                   sx={{
                     display: 'grid',
-                    gridTemplateColumns: {
-                      xs: '1.4fr 44px 50px 50px 50px 50px 30px',
-                      sm: '1.6fr 48px 56px 56px 56px 56px 48px 48px 32px',
-                    },
+                    gridTemplateColumns: GRID_COLS,
                     gap: 0.5,
                     alignItems: 'center',
                     px: 1,
@@ -280,8 +285,18 @@ export default function SkillsCard({ character, update }: Props) {
                     '&:hover': { background: 'rgba(255,255,255,0.06)' },
                   }}
                 >
-                  <Box sx={{ minWidth: 0, display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Typography variant="body2" sx={{ whiteSpace: 'nowrap', fontWeight: 500 }}>
+                  <Box sx={{ minWidth: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Typography
+                      variant="body2"
+                      title={row.defName}
+                      sx={{
+                        whiteSpace: 'nowrap',
+                        fontWeight: 500,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        flexShrink: 0,
+                      }}
+                    >
                       {row.defName}
                     </Typography>
                     {isGroupable && (
@@ -340,7 +355,6 @@ export default function SkillsCard({ character, update }: Props) {
                       textAlign: 'center',
                       color: 'text.secondary',
                       fontSize: 13,
-                      display: { xs: 'none', sm: 'block' },
                     }}
                   >
                     {half(total)}
@@ -350,7 +364,6 @@ export default function SkillsCard({ character, update }: Props) {
                       textAlign: 'center',
                       color: 'text.secondary',
                       fontSize: 13,
-                      display: { xs: 'none', sm: 'block' },
                     }}
                   >
                     {fifth(total)}
@@ -399,10 +412,7 @@ export default function SkillsCard({ character, update }: Props) {
               key={idx}
               sx={{
                 display: 'grid',
-                gridTemplateColumns: {
-                  xs: '1.4fr 44px 50px 50px 50px 50px 30px',
-                  sm: '1.6fr 48px 56px 56px 56px 56px 48px 48px 32px',
-                },
+                gridTemplateColumns: GRID_COLS,
                 gap: 0.5,
                 alignItems: 'center',
                 px: 1,
@@ -442,14 +452,10 @@ export default function SkillsCard({ character, update }: Props) {
                 inputProps={{ style: { textAlign: 'center', padding: '4px 2px' } }}
               />
               <Box sx={{ textAlign: 'center', fontWeight: 700, fontSize: 15 }}>{total}</Box>
-              <Box
-                sx={{ textAlign: 'center', color: 'text.secondary', fontSize: 13, display: { xs: 'none', sm: 'block' } }}
-              >
+              <Box sx={{ textAlign: 'center', color: 'text.secondary', fontSize: 13 }}>
                 {half(total)}
               </Box>
-              <Box
-                sx={{ textAlign: 'center', color: 'text.secondary', fontSize: 13, display: { xs: 'none', sm: 'block' } }}
-              >
+              <Box sx={{ textAlign: 'center', color: 'text.secondary', fontSize: 13 }}>
                 {fifth(total)}
               </Box>
               <Box sx={{ textAlign: 'center' }}>
@@ -468,6 +474,8 @@ export default function SkillsCard({ character, update }: Props) {
         >
           添加自定义技能
         </Button>
+      </Box>
+       </Box>
       </Box>
     </Box>
   );
