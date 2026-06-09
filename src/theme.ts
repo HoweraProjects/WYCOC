@@ -1,14 +1,16 @@
 import { createTheme } from '@mui/material/styles';
 
-// 现代化 Material 主题，克苏鲁风格的暗青/赭金配色
+// 黑白配：近黑背景 + 高对比白色文字与描边，单色调（grayscale）
 export const theme = createTheme({
   palette: {
-    mode: 'light',
-    primary: { main: '#2f6f6a', light: '#5c9b95', dark: '#1d4a46' },
-    secondary: { main: '#b07b2c', light: '#d9a44e', dark: '#7d5418' },
-    background: { default: '#eef1f0', paper: '#ffffff' },
-    success: { main: '#3c8a4e' },
-    text: { primary: '#1f2a29', secondary: '#5a6b69' },
+    mode: 'dark',
+    primary: { main: '#f4f4f5', light: '#ffffff', dark: '#c7c7cc', contrastText: '#0d0d0f' },
+    secondary: { main: '#a1a1aa', light: '#d4d4d8', dark: '#71717a', contrastText: '#0d0d0f' },
+    background: { default: '#0d0d0f', paper: '#18181b' },
+    success: { main: '#e4e4e7' },
+    error: { main: '#f87171' },
+    text: { primary: '#f4f4f5', secondary: '#a1a1aa' },
+    divider: 'rgba(255,255,255,0.14)',
   },
   shape: { borderRadius: 12 },
   typography: {
@@ -28,8 +30,8 @@ export const theme = createTheme({
       defaultProps: { elevation: 0 },
       styleOverrides: {
         root: {
-          border: '1px solid rgba(47,111,106,0.14)',
-          boxShadow: '0 2px 10px rgba(31,42,41,0.05)',
+          border: '1px solid rgba(255,255,255,0.14)',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
         },
       },
     },

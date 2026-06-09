@@ -88,9 +88,9 @@ export default function TopBar({
       color="default"
       elevation={0}
       sx={{
-        background: 'rgba(255,255,255,0.85)',
+        background: 'rgba(13,13,15,0.82)',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(47,111,106,0.15)',
+        borderBottom: '1px solid rgba(255,255,255,0.14)',
       }}
     >
       <Toolbar sx={{ gap: 1 }}>

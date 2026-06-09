@@ -33,7 +33,7 @@ export default function App() {
     try {
       const dataUrl = await toPng(sheetRef.current, {
         pixelRatio: 2,
-        backgroundColor: '#eef1f0',
+        backgroundColor: '#0d0d0f',
         cacheBust: true,
         filter: (node) =>
           !(node instanceof HTMLElement && node.dataset.noexport === 'true'),

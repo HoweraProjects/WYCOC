@@ -20,8 +20,8 @@ export default function SectionCard({ title, subtitle, icon, action, children, d
           gap: 1,
           px: 2,
           py: 1.25,
-          background: 'linear-gradient(90deg, rgba(47,111,106,0.10), rgba(47,111,106,0.02))',
-          borderBottom: '1px solid rgba(47,111,106,0.12)',
+          background: 'linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
+          borderBottom: '1px solid rgba(255,255,255,0.12)',
         }}
       >
         {icon && <Box sx={{ display: 'flex', color: 'primary.main' }}>{icon}</Box>}

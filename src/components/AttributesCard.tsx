@@ -59,7 +59,7 @@ export default function AttributesCard({ character, update }: Props) {
         </Tooltip>
         <Box sx={{ flex: 1 }} />
         <Typography variant="caption" color="text.secondary" sx={{ alignSelf: 'center' }}>
-          属性总和 <b style={{ color: '#2f6f6a' }}>{sum}</b>
+          属性总和 <b style={{ color: '#f4f4f5' }}>{sum}</b>
         </Typography>
       </Stack>
       <Grid container spacing={1}>

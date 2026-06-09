@@ -37,7 +37,7 @@ export default function AvatarCard({ character, update }: Props) {
             width: 'auto',
             height: 'auto',
             borderRadius: 2,
-            border: '2px solid rgba(47,111,106,0.2)',
+            border: '2px solid rgba(255,255,255,0.22)',
             objectFit: 'contain',
           }}
         />
@@ -50,9 +50,9 @@ export default function AvatarCard({ character, update }: Props) {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 2,
-            bgcolor: 'rgba(47,111,106,0.10)',
+            bgcolor: 'rgba(255,255,255,0.06)',
             color: 'primary.main',
-            border: '2px solid rgba(47,111,106,0.2)',
+            border: '2px solid rgba(255,255,255,0.22)',
           }}
         >
           <PersonIcon sx={{ fontSize: 64 }} />

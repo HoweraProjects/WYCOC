@@ -27,16 +27,18 @@ interface Props {
 
 const CUSTOM = '__custom__';
 
+// 黑白配：组别统一使用浅灰白做强调
+const GROUP_ACCENT = '#d4d4d8';
 const groupColors: Record<string, string> = {
-  特殊: '#7d5418',
-  探索: '#2f6f6a',
-  社交: '#9148db',
-  战斗: '#c0392b',
-  医疗: '#3c8a4e',
-  运动: '#2980b9',
-  知识: '#b07b2c',
-  技术: '#16a085',
-  操纵: '#8e44ad',
+  特殊: GROUP_ACCENT,
+  探索: GROUP_ACCENT,
+  社交: GROUP_ACCENT,
+  战斗: GROUP_ACCENT,
+  医疗: GROUP_ACCENT,
+  运动: GROUP_ACCENT,
+  知识: GROUP_ACCENT,
+  技术: GROUP_ACCENT,
+  操纵: GROUP_ACCENT,
 };
 
 function PointPool({
@@ -200,7 +202,7 @@ export default function SkillsCard({ character, update }: Props) {
         <Grid size={{ xs: 12, md: 6 }}>
           <PointPool
             label="职业点"
-            color="#2f6f6a"
+            color="#e4e4e7"
             used={usedOccPoints(rows)}
             total={character.occPoints}
             onTotal={(v) => update({ occPoints: v })}
@@ -211,7 +213,7 @@ export default function SkillsCard({ character, update }: Props) {
         <Grid size={{ xs: 12, md: 6 }}>
           <PointPool
             label="兴趣点"
-            color="#b07b2c"
+            color="#a1a1aa"
             used={usedIntPoints(rows)}
             total={character.intPoints}
             onTotal={(v) => update({ intPoints: v })}
@@ -257,7 +259,7 @@ export default function SkillsCard({ character, update }: Props) {
 
       {skillTable.map((g) => {
         const items = grouped.get(g.group) || [];
-        const color = groupColors[g.group] || '#2f6f6a';
+        const color = groupColors[g.group] || '#d4d4d8';
         const groupables = groupableInGroup(g.group);
         return (
           <Box key={g.group} sx={{ mb: 1 }}>
@@ -285,7 +287,7 @@ export default function SkillsCard({ character, update }: Props) {
                     px: 1,
                     py: 0.4,
                     borderRadius: 1,
-                    '&:hover': { background: 'rgba(47,111,106,0.05)' },
+                    '&:hover': { background: 'rgba(255,255,255,0.06)' },
                   }}
                 >
                   <Box sx={{ minWidth: 0, display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -328,13 +330,13 @@ export default function SkillsCard({ character, update }: Props) {
                     value={row.point.pro || ''}
                     onChange={(e) => patchRow(idx, { point: { pro: numField(e.target.value) } })}
                     placeholder="0"
-                    inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#2f6f6a' } }}
+                    inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#e4e4e7' } }}
                   />
                   <TextField
                     value={row.point.interest || ''}
                     onChange={(e) => patchRow(idx, { point: { interest: numField(e.target.value) } })}
                     placeholder="0"
-                    inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#b07b2c' } }}
+                    inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#a1a1aa' } }}
                   />
                   <TextField
                     value={row.point.grow || ''}
@@ -395,8 +397,8 @@ export default function SkillsCard({ character, update }: Props) {
       {/* 自定义技能 */}
       <Box sx={{ mb: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1, mb: 0.5 }}>
-          <Box sx={{ width: 4, height: 16, borderRadius: 2, bgcolor: '#6b7280' }} />
-          <Typography variant="subtitle2" sx={{ color: '#6b7280' }}>
+          <Box sx={{ width: 4, height: 16, borderRadius: 2, bgcolor: '#a1a1aa' }} />
+          <Typography variant="subtitle2" sx={{ color: '#a1a1aa' }}>
             自定义技能
           </Typography>
         </Box>
@@ -416,7 +418,7 @@ export default function SkillsCard({ character, update }: Props) {
                 px: 1,
                 py: 0.4,
                 borderRadius: 1,
-                '&:hover': { background: 'rgba(47,111,106,0.05)' },
+                '&:hover': { background: 'rgba(255,255,255,0.06)' },
               }}
             >
               <TextField
@@ -435,13 +437,13 @@ export default function SkillsCard({ character, update }: Props) {
                 value={row.point.pro || ''}
                 onChange={(e) => patchRow(idx, { point: { pro: numField(e.target.value) } })}
                 placeholder="0"
-                inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#2f6f6a' } }}
+                inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#e4e4e7' } }}
               />
               <TextField
                 value={row.point.interest || ''}
                 onChange={(e) => patchRow(idx, { point: { interest: numField(e.target.value) } })}
                 placeholder="0"
-                inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#b07b2c' } }}
+                inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#a1a1aa' } }}
               />
               <TextField
                 value={row.point.grow || ''}
@@ -472,7 +474,7 @@ export default function SkillsCard({ character, update }: Props) {
           size="small"
           startIcon={<AddIcon sx={{ fontSize: 16 }} />}
           onClick={addCustom}
-          sx={{ color: '#6b7280', fontSize: 12, mt: 0.25 }}
+          sx={{ color: '#a1a1aa', fontSize: 12, mt: 0.25 }}
         >
           添加自定义技能
         </Button>

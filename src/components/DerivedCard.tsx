@@ -85,7 +85,7 @@ export default function DerivedCard({ character, update }: Props) {
           <Stat
             icon={<FavoriteIcon fontSize="small" />}
             label="体力 HP"
-            color="#c0392b"
+            color="#f4f4f5"
             nowValue={character.hpNow}
             onNow={(v) => update({ hpNow: v })}
             maxLabel="最大"
@@ -96,7 +96,7 @@ export default function DerivedCard({ character, update }: Props) {
           <Stat
             icon={<AutoAwesomeIcon fontSize="small" />}
             label="魔法 MP"
-            color="#2f6f6a"
+            color="#d4d4d8"
             nowValue={character.mpNow}
             onNow={(v) => update({ mpNow: v })}
             maxLabel="最大"
@@ -107,7 +107,7 @@ export default function DerivedCard({ character, update }: Props) {
           <Stat
             icon={<PsychologyIcon fontSize="small" />}
             label="理智 SAN"
-            color="#7d5418"
+            color="#a1a1aa"
             nowValue={character.sanNow}
             onNow={(v) => update({ sanNow: v })}
             maxLabel="初始"

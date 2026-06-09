@@ -87,7 +87,7 @@ export default function DiceRollerDialog({ open, onClose }: Props) {
                   justifyContent: 'space-between',
                   p: 1,
                   borderRadius: 1,
-                  background: i === 0 ? 'rgba(47,111,106,0.10)' : 'transparent',
+                  background: i === 0 ? 'rgba(255,255,255,0.08)' : 'transparent',
                 }}
               >
                 <Box>
