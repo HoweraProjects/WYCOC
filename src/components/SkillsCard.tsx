@@ -25,6 +25,8 @@ interface Props {
   update: (patch: Partial<Character> | ((c: Character) => Partial<Character>)) => void;
 }
 
+const CUSTOM = '__custom__';
+
 const groupColors: Record<string, string> = {
   特殊: '#7d5418',
   探索: '#2f6f6a',
@@ -134,6 +136,19 @@ export default function SkillsCard({ character, update }: Props) {
     setRows(next);
   };
 
+  const addCustom = () => {
+    setRows([
+      ...rows,
+      {
+        defName: CUSTOM,
+        custom: true,
+        label: '',
+        init: 0,
+        point: { pro: 0, interest: 0, grow: 0 },
+      },
+    ]);
+  };
+
   const occ = findOccupation(character.occupation);
 
   const autoFillOcc = () => {
@@ -163,12 +178,18 @@ export default function SkillsCard({ character, update }: Props) {
     const map = new Map<string, { idx: number; row: SkillRow }[]>();
     skillTable.forEach((g) => map.set(g.group, []));
     rows.forEach((row, idx) => {
+      if (row.custom) return; // 自定义技能单独成区
       const grp = defGroup.get(row.defName) || '其它';
       if (!map.has(grp)) map.set(grp, []);
       map.get(grp)!.push({ idx, row });
     });
     return map;
   }, [rows]);
+
+  const customRows = useMemo(
+    () => rows.map((row, idx) => ({ idx, row })).filter((r) => r.row.custom),
+    [rows],
+  );
 
   const groupableInGroup = (group: string) =>
     skillTable.find((g) => g.group === group)?.skills.filter((s) => s.group) || [];
@@ -370,6 +391,92 @@ export default function SkillsCard({ character, update }: Props) {
           </Box>
         );
       })}
+
+      {/* 自定义技能 */}
+      <Box sx={{ mb: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1, mb: 0.5 }}>
+          <Box sx={{ width: 4, height: 16, borderRadius: 2, bgcolor: '#6b7280' }} />
+          <Typography variant="subtitle2" sx={{ color: '#6b7280' }}>
+            自定义技能
+          </Typography>
+        </Box>
+        {customRows.map(({ idx, row }) => {
+          const total = skillTotal(row);
+          return (
+            <Box
+              key={idx}
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: '1.4fr 44px 50px 50px 50px 50px 30px',
+                  sm: '1.6fr 48px 56px 56px 56px 56px 48px 48px 32px',
+                },
+                gap: 0.5,
+                alignItems: 'center',
+                px: 1,
+                py: 0.4,
+                borderRadius: 1,
+                '&:hover': { background: 'rgba(47,111,106,0.05)' },
+              }}
+            >
+              <TextField
+                value={row.label}
+                onChange={(e) => patchRow(idx, { label: e.target.value })}
+                placeholder="技能名称"
+                variant="standard"
+                inputProps={{ style: { fontSize: 14, fontWeight: 500 } }}
+              />
+              <TextField
+                value={row.init}
+                onChange={(e) => patchRow(idx, { init: numField(e.target.value) })}
+                inputProps={{ style: { textAlign: 'center', padding: '4px 2px' } }}
+              />
+              <TextField
+                value={row.point.pro || ''}
+                onChange={(e) => patchRow(idx, { point: { pro: numField(e.target.value) } })}
+                placeholder="0"
+                inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#2f6f6a' } }}
+              />
+              <TextField
+                value={row.point.interest || ''}
+                onChange={(e) => patchRow(idx, { point: { interest: numField(e.target.value) } })}
+                placeholder="0"
+                inputProps={{ style: { textAlign: 'center', padding: '4px 2px', color: '#b07b2c' } }}
+              />
+              <TextField
+                value={row.point.grow || ''}
+                onChange={(e) => patchRow(idx, { point: { grow: numField(e.target.value) } })}
+                placeholder="0"
+                inputProps={{ style: { textAlign: 'center', padding: '4px 2px' } }}
+              />
+              <Box sx={{ textAlign: 'center', fontWeight: 700, fontSize: 15 }}>{total}</Box>
+              <Box
+                sx={{ textAlign: 'center', color: 'text.secondary', fontSize: 13, display: { xs: 'none', sm: 'block' } }}
+              >
+                {half(total)}
+              </Box>
+              <Box
+                sx={{ textAlign: 'center', color: 'text.secondary', fontSize: 13, display: { xs: 'none', sm: 'block' } }}
+              >
+                {fifth(total)}
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <IconButton size="small" onClick={() => removeRow(idx)}>
+                  <CloseIcon sx={{ fontSize: 16 }} />
+                </IconButton>
+              </Box>
+            </Box>
+          );
+        })}
+        <Button
+          size="small"
+          startIcon={<AddIcon sx={{ fontSize: 16 }} />}
+          onClick={addCustom}
+          sx={{ color: '#6b7280', fontSize: 12, mt: 0.25 }}
+        >
+          添加自定义技能
+        </Button>
+      </Box>
     </Box>
   );
 }

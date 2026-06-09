@@ -47,6 +47,8 @@ export interface SkillRow {
   /** 该行初始值（已计算动态值） */
   init: number;
   point: SkillPoint;
+  /** 用户自定义技能（名称可自由编辑） */
+  custom?: boolean;
 }
 
 // ===== 武器 =====
