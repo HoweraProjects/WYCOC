@@ -1,9 +1,10 @@
 // 上传头像时先缩放 + 压缩，避免把整张原图以超长 base64 存进存档/本地缓存。
-// 头像显示尺寸最大 200×300，导出时按 2x，640px 足够清晰且体积很小。
+// 头像显示最大约 200px，导出按 2x 也仅 ~400px，故上限 400px、质量 0.72 已足够清晰，
+// 同时把 base64 体积压到最小。
 export function resizeImageFile(
   file: File,
-  maxDim = 640,
-  quality = 0.82,
+  maxDim = 400,
+  quality = 0.72,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
