@@ -1,0 +1,33 @@
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(47, 111, 106, 0.12), transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, rgba(176, 123, 44, 0.1), transparent 55%),
+    #eef1f0;
+  background-attachment: fixed;
+}
+
+/* 隐藏数字输入框的步进箭头，外观更整洁 */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
