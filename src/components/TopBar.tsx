@@ -47,7 +47,10 @@ export default function TopBar({
   const [toast, setToast] = useState('');
 
   const exportJSON = () => {
-    const blob = new Blob([JSON.stringify(character, null, 2)], { type: 'application/json' });
+    // 把体积巨大的头像 base64 放到末尾，方便打开文件时一眼看清其它字段
+    const { avatar, ...rest } = character;
+    const ordered = { ...rest, ...(avatar !== undefined ? { avatar } : {}) };
+    const blob = new Blob([JSON.stringify(ordered, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
