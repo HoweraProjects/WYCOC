@@ -24,10 +24,6 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      # 若仓库尚未开启 Pages，这一步会自动启用（source = GitHub Actions）
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
