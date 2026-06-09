@@ -4,6 +4,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import type { Character } from '../types';
+import { resizeImageFile } from '../logic/image';
 
 interface Props {
   character: Character;
@@ -13,13 +14,19 @@ interface Props {
 export default function AvatarCard({ character, update }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => update({ avatar: String(reader.result) });
-    reader.readAsDataURL(file);
     e.target.value = '';
+    if (!file) return;
+    try {
+      const dataUrl = await resizeImageFile(file);
+      update({ avatar: dataUrl });
+    } catch {
+      // 压缩失败则退回原图读取
+      const reader = new FileReader();
+      reader.onload = () => update({ avatar: String(reader.result) });
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
