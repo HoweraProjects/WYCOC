@@ -4,6 +4,7 @@ import ElderlyIcon from '@mui/icons-material/Elderly';
 import type { Character, Attributes, AttrKey } from '../types';
 import { ATTR_META, rollAttributes, applyAge } from '../logic/attributes';
 import { refreshDynamicInits } from '../logic/skills';
+import { computeOccPoints, computeIntPoints } from '../logic/points';
 
 interface Props {
   character: Character;
@@ -13,6 +14,7 @@ interface Props {
 export default function AttributesCard({ character, update }: Props) {
   const attrs = character.attributes;
 
+  // 手动单项修改：仅更新属性与动态技能初始值，不覆盖已填的点数池
   const setAttrs = (next: Attributes) => {
     update((c) => ({
       attributes: next,
@@ -20,17 +22,31 @@ export default function AttributesCard({ character, update }: Props) {
     }));
   };
 
+  // 一键投掷 / 年龄调整：整体重算，同时刷新职业点（按职业公式）与兴趣点（智力×2）
+  const setAttrsAndPoints = (next: Attributes) => {
+    update((c) => {
+      const patch: Partial<Character> = {
+        attributes: next,
+        skills: refreshDynamicInits(c.skills, next),
+        intPoints: String(computeIntPoints(next)),
+      };
+      const occP = computeOccPoints(c.occupation, next);
+      if (occP !== undefined) patch.occPoints = String(occP);
+      return patch;
+    });
+  };
+
   const setOne = (key: AttrKey, value: string) => {
     const v = value === '' ? '' : Math.max(0, Math.min(999, Number(value)));
     setAttrs({ ...attrs, [key]: v });
   };
 
-  const rollAll = () => setAttrs(rollAttributes());
+  const rollAll = () => setAttrsAndPoints(rollAttributes());
 
   const onApplyAge = () => {
     const age = Number(character.age);
     if (!age) return;
-    setAttrs(applyAge(attrs, age));
+    setAttrsAndPoints(applyAge(attrs, age));
   };
 
   const sum = ATTR_META.filter((m) => m.key !== 'luck').reduce(

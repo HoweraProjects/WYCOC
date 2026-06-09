@@ -13,6 +13,7 @@ import CasinoIcon from '@mui/icons-material/Casino';
 import type { Character } from '../types';
 import { occupations } from '../data/occupations';
 import { generateName } from '../data/names';
+import { computeOccPoints } from '../logic/points';
 import AvatarCard from './AvatarCard';
 
 interface Props {
@@ -80,7 +81,13 @@ export default function BasicInfo({ character, update }: Props) {
               fullWidth
               label="职业"
               value={character.occupation}
-              onChange={(e) => update({ occupation: e.target.value })}
+              onChange={(e) => {
+                const occP = computeOccPoints(e.target.value, character.attributes);
+                update({
+                  occupation: e.target.value,
+                  ...(occP !== undefined ? { occPoints: String(occP) } : {}),
+                });
+              }}
             >
               <MenuItem value="">
                 <em>未选择</em>

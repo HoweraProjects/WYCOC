@@ -19,6 +19,7 @@ import type { Character, SkillRow } from '../types';
 import { skillTable, allSkillDefs } from '../data/skills';
 import { findOccupation } from '../data/occupations';
 import { skillTotal, half, fifth, usedOccPoints, usedIntPoints } from '../logic/skills';
+import { computeOccPoints, computeIntPoints } from '../logic/points';
 
 interface Props {
   character: Character;
@@ -154,23 +155,12 @@ export default function SkillsCard({ character, update }: Props) {
   const occ = findOccupation(character.occupation);
 
   const autoFillOcc = () => {
-    if (!occ) return;
-    const get = (k: keyof Character['attributes']) =>
-      typeof character.attributes[k] === 'number' ? (character.attributes[k] as number) : 0;
-    const f = occ.formula;
-    let val = (f.alts ? Math.max(get(f.primary), ...f.alts.map(get)) : get(f.primary)) * (f.secondary ? 2 : 4);
-    if (f.secondary) {
-      const sec = f.secondaryAlts
-        ? Math.max(get(f.secondary), ...f.secondaryAlts.map(get))
-        : get(f.secondary);
-      val += sec * 2;
-    }
-    update({ occPoints: String(val) });
+    const val = computeOccPoints(character.occupation, character.attributes);
+    if (val !== undefined) update({ occPoints: String(val) });
   };
 
   const autoFillInt = () => {
-    const int = typeof character.attributes.int === 'number' ? character.attributes.int : 0;
-    update({ intPoints: String(int * 2) });
+    update({ intPoints: String(computeIntPoints(character.attributes)) });
   };
 
   // 把扁平 rows 按组别归类（保持顺序）
